@@ -1,4 +1,4 @@
-## Week Six Day Two - Model-View-Presenter ##
+## Model-View-Presenter ##
 
 ### Screnshots ###
 <p float="left">
