@@ -7,7 +7,7 @@ import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 
-import ca.judacribz.week6day2_mvp.model.Animal;
+import ca.judacribz.week6day2_mvp.model.animal.Animal;
 
 public class AnimalDetailsTask extends AsyncTask<Animal, Void, Animal> {
     private Animal animal;

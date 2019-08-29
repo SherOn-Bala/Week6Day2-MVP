@@ -1,11 +1,12 @@
 package ca.judacribz.week6day2_mvp.view.adapters;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,24 +14,28 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.net.URL;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import ca.judacribz.week6day2_mvp.R;
+import ca.judacribz.week6day2_mvp.model.animal.Animal;
 import ca.judacribz.week6day2_mvp.view.activities.animal_details.AnimalDetails;
-import ca.judacribz.week6day2_mvp.model.Animal;
 
 public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder> {
     private ArrayList<Animal> animals;
-    private Map<String, Bitmap> animalBmps;
-    private Activity context;
+    private Context context;
 
-    public AnimalAdapter(Activity context, ArrayList<Animal> animals) {
+    Map<String, Bitmap> aniPics;
+
+    public AnimalAdapter(Context context, ArrayList<Animal> animals) {
         this.context = context;
         this.animals = animals;
-        animalBmps = new HashMap<>();
+        aniPics = new HashMap<>();
     }
 
     @NonNull
@@ -66,8 +71,6 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
 
         ImageView ivAnimalImage;
 
-        Animal animal;
-        Bitmap bmp;
         String aniName;
 
         ViewHolder(@NonNull final View itemView) {
@@ -88,7 +91,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
                     Intent intent = new Intent(v.getContext(), AnimalDetails.class);
                     Bundle bundle = new Bundle();
 
-                    bundle.putParcelable(EXTRA_ANIMAL, animal);
+                    bundle.putParcelable(EXTRA_ANIMAL, animals.get(getAdapterPosition()));
                     intent.putExtras(bundle);
 
                     v.getContext().startActivity(intent);
@@ -98,40 +101,38 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
 
 
         void setAnimalData(final Animal animal) {
-            this.animal = animal;
             tvAnimalName.setText(aniName = animal.getName());
             tvScientificName.setText(animal.getScientificName());
             tvDiet.setText(animal.getDiet());
             tvStatus.setText(animal.getStatus());
 
-            if (animalBmps.containsKey(aniName)) {
-                setAnimalImage(animalBmps.get(aniName));
+            if (!aniPics.containsKey(aniName)) {
+                Glide
+                        .with(context)
+                        .asBitmap()
+                        .load(animal.getImgUrl())
+                        .into(new CustomTarget<Bitmap>() {
+
+                            @Override
+                            public void onResourceReady(
+                                    @NonNull Bitmap bitmap,
+                                    @Nullable Transition<? super Bitmap> trans) {
+
+                                aniPics.put(aniName, bitmap);
+                                setAnimalImage(bitmap);
+                            }
+
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+                            }
+                        });
             } else {
-                setAnimalImage(animal.getImgUrl());
+                setAnimalImage(aniPics.get(aniName));
             }
         }
 
-        void setAnimalImage(final String url) {
-            //TODO use glide
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        animalBmps.put(
-                                aniName,
-                                bmp = BitmapFactory.decodeStream(new URL(url).openStream())
-                        );
-                        setAnimalImage(bmp);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-        }
-
-        void setAnimalImage(Bitmap bmp) {
-            ivAnimalImage.setImageBitmap(bmp);
+        private void setAnimalImage(@Nullable Bitmap bitmap) {
+            ivAnimalImage.setImageBitmap(bitmap);
         }
     }
 }

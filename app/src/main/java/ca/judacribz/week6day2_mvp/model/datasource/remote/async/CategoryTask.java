@@ -9,7 +9,7 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import ca.judacribz.week6day2_mvp.model.Category;
+import ca.judacribz.week6day2_mvp.model.animal.Category;
 
 public class CategoryTask extends AsyncTask<Void, Void, ArrayList<Category>> {
 

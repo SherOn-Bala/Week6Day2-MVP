@@ -1,4 +1,43 @@
 package ca.judacribz.week6day2_mvp.view.activities.animal_list;
 
-public class Presenter {
+import android.content.Context;
+import android.content.Intent;
+
+import java.util.ArrayList;
+
+import ca.judacribz.week6day2_mvp.R;
+import ca.judacribz.week6day2_mvp.model.animal.Animal;
+import ca.judacribz.week6day2_mvp.model.datasource.remote.async.AnimalTask;
+import ca.judacribz.week6day2_mvp.view.adapters.AnimalAdapter;
+
+public class Presenter implements AnimalTask.AnimalsListener {
+
+    public static final String KEY_CATEGORY =
+            "ca.judacribz.week6day2_mvp.view.activities.animal_list.KEY_CATEGORY";
+    public static final String EXTRA_CATEGORY_NAME =
+            "ca.judacribz.week6day2_mvp.view.activities.animal_list.EXTRA_CATEGORY_NAME";
+
+    private Contract animalContract;
+    private Context context;
+    private String category;
+
+    Presenter(Context context, Intent intent) {
+        this.animalContract = (Contract) (this.context = context);
+        category = intent.getStringExtra(EXTRA_CATEGORY_NAME);
+
+        animalContract.onCategoryReceived(
+                !category.isEmpty() ?
+                        category :
+                        context.getString(R.string.all_animals)
+        );
+    }
+
+    void getAnimals() {
+        new AnimalTask(this).execute(category);
+    }
+
+    @Override
+    public void onAnimalsReceived(ArrayList<Animal> animals) {
+        animalContract.onAdapterCreated(new AnimalAdapter(context, animals));
+    }
 }

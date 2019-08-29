@@ -8,18 +8,18 @@ import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
-import ca.judacribz.week6day2_mvp.model.Animal;
+import ca.judacribz.week6day2_mvp.model.animal.Animal;
 
-import static ca.judacribz.week6day2_mvp.view.activities.animal_list.AnimalList.ALL_ANIMALS;
+import static ca.judacribz.week6day2_mvp.model.Constants.DIET;
+import static ca.judacribz.week6day2_mvp.model.Constants.QUERY_CATEGORY;
+import static ca.judacribz.week6day2_mvp.model.Constants.RANGE;
+import static ca.judacribz.week6day2_mvp.model.Constants.READ_MORE;
+import static ca.judacribz.week6day2_mvp.model.Constants.STATUS;
+import static ca.judacribz.week6day2_mvp.model.Constants.ZOO_BASE_URL;
 
 public class AnimalTask extends AsyncTask<String, Void, ArrayList<Animal>> {
-
-    private static final String
-            DIET = "Diet ",
-            STATUS = " Status In The Wild ",
-            RANGE = " Range ",
-            READ_MORE = " Read More";
 
     private AnimalsListener animalsListener;
 
@@ -37,11 +37,15 @@ public class AnimalTask extends AsyncTask<String, Void, ArrayList<Animal>> {
         ArrayList<Animal> animals = new ArrayList<>();
 
         try {
-            Document document = Jsoup.connect(
-                    (ALL_ANIMALS.equals(categoryName[0])) ?
-                            "https://zooatlanta.org/animals/" :
-                            "https://zooatlanta.org/animals/?wpvtypeofanimal%5B%5D=" +
-                                    categoryName[0]
+            Document document = Jsoup.connect((
+                    categoryName[0]).isEmpty() ?
+                    ZOO_BASE_URL :
+                    String.format(Locale.US,
+                            "%s?%s=%s",
+                            ZOO_BASE_URL,
+                            QUERY_CATEGORY,
+                            categoryName[0]
+                    )
             ).get();
 
             String styleStr;

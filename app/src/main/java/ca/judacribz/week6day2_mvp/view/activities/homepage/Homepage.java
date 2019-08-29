@@ -21,6 +21,8 @@ import ca.judacribz.week6day2_mvp.view.activities.category_list.CategoryList;
 import ca.judacribz.week6day2_mvp.model.datasource.remote.async.MainImageTask;
 import ca.judacribz.week6day2_mvp.model.datasource.remote.async.ScheduleTask;
 
+import static ca.judacribz.week6day2_mvp.view.activities.animal_list.Presenter.EXTRA_CATEGORY_NAME;
+
 public class Homepage extends AppCompatActivity implements
         ScheduleTask.ScheduleListener,
         MainImageTask.ImageListener {
@@ -100,7 +102,9 @@ public class Homepage extends AppCompatActivity implements
     }
 
     public void goToAnimals(View view) {
-        startActivity(new Intent(this, AnimalList.class));
+        Intent intent =new Intent(this, AnimalList.class);
+        intent.putExtra(EXTRA_CATEGORY_NAME, "");
+        startActivity(intent);
     }
 
     List<String> urls = new ArrayList<>();

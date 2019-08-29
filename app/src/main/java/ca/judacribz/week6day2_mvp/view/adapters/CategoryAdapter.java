@@ -11,10 +11,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ca.judacribz.week6day2_mvp.R;
-import ca.judacribz.week6day2_mvp.model.Category;
+import ca.judacribz.week6day2_mvp.model.animal.Category;
 import ca.judacribz.week6day2_mvp.view.activities.animal_list.AnimalList;
 
-import static ca.judacribz.week6day2_mvp.view.activities.category_list.Presenter.EXTRA_CATEGORY_NAME;
+import static ca.judacribz.week6day2_mvp.view.activities.animal_list.Presenter.EXTRA_CATEGORY_NAME;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryHolder> {
 

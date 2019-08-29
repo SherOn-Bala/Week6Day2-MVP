@@ -1,4 +1,4 @@
-package ca.judacribz.week6day2_mvp.model;
+package ca.judacribz.week6day2_mvp.model.animal;
 
 public class Category {
     String

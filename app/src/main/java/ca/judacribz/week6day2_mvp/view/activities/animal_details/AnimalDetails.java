@@ -13,12 +13,12 @@ import android.widget.TextView;
 import java.util.Objects;
 
 import ca.judacribz.week6day2_mvp.R;
-import ca.judacribz.week6day2_mvp.model.Animal;
+import ca.judacribz.week6day2_mvp.model.animal.Animal;
 import ca.judacribz.week6day2_mvp.model.datasource.remote.async.AnimalDetailsTask;
 import ca.judacribz.week6day2_mvp.model.datasource.remote.async.DownloadImageTask;
 
 import static ca.judacribz.week6day2_mvp.view.adapters.AnimalAdapter.ViewHolder.EXTRA_ANIMAL;
-import static ca.judacribz.week6day2_mvp.view.activities.animal_list.AnimalList.KEY_CATEGORY;
+import static ca.judacribz.week6day2_mvp.view.activities.animal_list.Presenter.KEY_CATEGORY;
 
 public class AnimalDetails extends AppCompatActivity implements
         AnimalDetailsTask.AnimalDetailsListener,
