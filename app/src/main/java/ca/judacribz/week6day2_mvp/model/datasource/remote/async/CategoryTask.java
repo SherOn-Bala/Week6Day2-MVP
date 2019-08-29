@@ -19,7 +19,7 @@ public class CategoryTask extends AsyncTask<Void, Void, ArrayList<Category>> {
         void onCategoriesReceived(ArrayList<Category> categories);
     }
 
-    public void setCategoriesListener(CategoriesListener categoriesListener) {
+    public CategoryTask(CategoriesListener categoriesListener) {
         this.categoriesListener = categoriesListener;
     }
 
