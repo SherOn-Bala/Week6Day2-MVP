@@ -37,15 +37,14 @@ public class AnimalTask extends AsyncTask<String, Void, ArrayList<Animal>> {
         ArrayList<Animal> animals = new ArrayList<>();
 
         try {
-            Document document = Jsoup.connect((
-                    categoryName[0]).isEmpty() ?
-                    URL_ZOO :
-                    String.format(Locale.US,
-                            "%s?%s=%s",
-                            URL_ZOO,
-                            URL_ZOO_QUERY_CATEGORY,
-                            categoryName[0]
-                    )
+            Document document = Jsoup.connect(
+                    categoryName[0].isEmpty() ?
+                            URL_ZOO :
+                            String.format(
+                                    Locale.US,
+                                    URL_ZOO_QUERY_CATEGORY,
+                                    categoryName[0]
+                            )
             ).get();
 
             String styleStr;
