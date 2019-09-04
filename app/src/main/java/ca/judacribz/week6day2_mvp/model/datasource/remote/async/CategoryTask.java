@@ -8,12 +8,15 @@ import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import ca.judacribz.week6day2_mvp.model.animal.Category;
 
+import static ca.judacribz.week6day2_mvp.model.Constants.*;
+
 public class CategoryTask extends AsyncTask<Void, Void, ArrayList<Category>> {
 
-    CategoriesListener categoriesListener;
+    private CategoriesListener categoriesListener;
 
     public interface CategoriesListener {
         void onCategoriesReceived(ArrayList<Category> categories);
@@ -28,36 +31,35 @@ public class CategoryTask extends AsyncTask<Void, Void, ArrayList<Category>> {
         ArrayList<Category> categories = new ArrayList<>();
 
         try {
-            String name;
+            String categoryName;
             int numSpecies;
 
-            Document document = Jsoup.connect("https://zooatlanta.org/animals").get();
+            Document document = Jsoup.connect(URL_ZOO).get();
 
-            for (Element el : document.getElementsByClass("popular-category")) {
+            for (Element el : document.getElementsByClass(CLASS_CATEGORY)) {
 
-                name = el.getElementsByTag("label").get(0).getElementsByTag("input").get(0).val();
+                categoryName = el
+                        .getElementsByTag(E_TAG_LABEL).get(0)
+                        .getElementsByTag(E_TAG_INPUT).get(0)
+                        .val();
 
-                document = Jsoup.connect(
-                        "https://zooatlanta.org/animals/?wpvtypeofanimal%5B%5D=" +
-                                name
-                ).get();
-                numSpecies = document.getElementsByClass("animal card").size();
+                /* https://zooatlanta.org/animals/?wpvtypeofanimal%5B%5D={categoryName} */
+                document = Jsoup.connect(String.format(
+                        Locale.US,
+                        URL_ZOO_QUERY_CATEGORY,
+                        categoryName
+                )).get();
+                numSpecies = document.getElementsByClass(CLASS_ANIMAL).size();
 
-                document = Jsoup.connect(
-                        "https://www.vocabulary.com/dictionary/" +
-                                name
-                ).get();
+                document = Jsoup.connect(String.format(
+                        Locale.US,
+                        URL_DICT_DEFINITION,
+                        categoryName
+                )).get();
 
-//                for (Element aniEl : document.getElementsByClass("animal card")) {
-//                    Log.d("YOOOOOO", "doInBackground: " + aniEl
-//                            .getElementsByClass("flipper").get(0)
-//                            .getElementsByClass("back").get(0)
-//                            .getElementsByClass("container").get(0)
-//                            .text());
-//                }
                 categories.add(new Category(
-                        name,
-                        document.getElementsByClass("short").get(0).text(),
+                        categoryName,
+                        document.getElementsByClass(CLASS_SHORT).get(0).text(),
                         numSpecies
                 ));
             }

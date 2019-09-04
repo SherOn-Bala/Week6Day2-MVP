@@ -28,24 +28,7 @@ public class Homepage extends AppCompatActivity implements
         MainImageTask.ImageListener {
 
     public static final int DURATION_IMAGE_CHANGE = 9000;
-    private static final int[] IMG_ID_ANIMALS = new int[]{
-            R.drawable.elephant,
-            R.drawable.gorilla,
-            R.drawable.panda,
-            R.drawable.zebra
-    };
-    private static final int[] STR_ID_HEAD_ANIMALS = new int[]{
-            R.string.elephant,
-            R.string.gorilla,
-            R.string.panda,
-            R.string.zebra
-    };
-    private static final int[] STR_ID_DESC_ANIMALS = new int[]{
-            R.string.elephant_desc,
-            R.string.gorilla_desc,
-            R.string.panda_desc,
-            R.string.zebra_desc
-    };
+
     private static final int[] BTN_IDS = new int[]{
             R.id.btnCategories,
             R.id.btnTickets,

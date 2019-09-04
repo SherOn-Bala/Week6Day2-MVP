@@ -2,7 +2,6 @@ package ca.judacribz.week6day2_mvp.view.activities.animal_details;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,19 +9,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.Objects;
 
 import ca.judacribz.week6day2_mvp.R;
 import ca.judacribz.week6day2_mvp.model.animal.Animal;
 import ca.judacribz.week6day2_mvp.model.datasource.remote.async.AnimalDetailsTask;
-import ca.judacribz.week6day2_mvp.model.datasource.remote.async.DownloadImageTask;
 
 import static ca.judacribz.week6day2_mvp.view.adapters.AnimalAdapter.ViewHolder.EXTRA_ANIMAL;
 import static ca.judacribz.week6day2_mvp.view.activities.animal_list.Presenter.KEY_CATEGORY;
 
 public class AnimalDetails extends AppCompatActivity implements
-        AnimalDetailsTask.AnimalDetailsListener,
-        DownloadImageTask.ImageDownloadedListener {
+        AnimalDetailsTask.AnimalDetailsListener{
 
     private static final String BIRDS = "birds";
 
@@ -48,6 +47,7 @@ public class AnimalDetails extends AppCompatActivity implements
         setContentView(R.layout.activity_animal_details);
         Objects.requireNonNull(getSupportActionBar()).hide();
 
+
         tvAnimalName = findViewById(R.id.tvAnimalName);
         tvScientificName = findViewById(R.id.tvScientificName);
         tvDiet = findViewById(R.id.tvDiet);
@@ -61,8 +61,7 @@ public class AnimalDetails extends AppCompatActivity implements
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            setAnimalData(animal = bundle.getParcelable(EXTRA_ANIMAL));
-            new DownloadImageTask(this).execute(animal.getImgUrl());
+            setViewData(animal = bundle.getParcelable(EXTRA_ANIMAL));
             new AnimalDetailsTask(this).execute(animal);
         }
 
@@ -71,7 +70,10 @@ public class AnimalDetails extends AppCompatActivity implements
         category = sharedPref.getString(KEY_CATEGORY, "");
     }
 
-    void setAnimalData(Animal animal) {
+
+
+    void setViewData(Animal animal) {
+        Glide.with(this).load(animal.getImgUrl()).into(ivAnimalImage);
         tvAnimalName.setText(animal.getName());
         tvScientificName.setText(animal.getScientificName());
         tvDiet.setText(animal.getDiet());
@@ -107,11 +109,6 @@ public class AnimalDetails extends AppCompatActivity implements
             animalSound.stop();
             animalSound.release();
         }
-    }
-
-    @Override
-    public void onImageDownloaded(Bitmap bmp) {
-        ivAnimalImage.setImageBitmap(bmp);
     }
 
     @Override

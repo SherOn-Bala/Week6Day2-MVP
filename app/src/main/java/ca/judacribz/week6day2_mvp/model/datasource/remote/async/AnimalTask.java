@@ -13,11 +13,11 @@ import java.util.Locale;
 import ca.judacribz.week6day2_mvp.model.animal.Animal;
 
 import static ca.judacribz.week6day2_mvp.model.Constants.DIET;
-import static ca.judacribz.week6day2_mvp.model.Constants.QUERY_CATEGORY;
 import static ca.judacribz.week6day2_mvp.model.Constants.RANGE;
 import static ca.judacribz.week6day2_mvp.model.Constants.READ_MORE;
 import static ca.judacribz.week6day2_mvp.model.Constants.STATUS;
-import static ca.judacribz.week6day2_mvp.model.Constants.ZOO_BASE_URL;
+import static ca.judacribz.week6day2_mvp.model.Constants.URL_ZOO;
+import static ca.judacribz.week6day2_mvp.model.Constants.URL_ZOO_QUERY_CATEGORY;
 
 public class AnimalTask extends AsyncTask<String, Void, ArrayList<Animal>> {
 
@@ -39,11 +39,11 @@ public class AnimalTask extends AsyncTask<String, Void, ArrayList<Animal>> {
         try {
             Document document = Jsoup.connect((
                     categoryName[0]).isEmpty() ?
-                    ZOO_BASE_URL :
+                    URL_ZOO :
                     String.format(Locale.US,
                             "%s?%s=%s",
-                            ZOO_BASE_URL,
-                            QUERY_CATEGORY,
+                            URL_ZOO,
+                            URL_ZOO_QUERY_CATEGORY,
                             categoryName[0]
                     )
             ).get();

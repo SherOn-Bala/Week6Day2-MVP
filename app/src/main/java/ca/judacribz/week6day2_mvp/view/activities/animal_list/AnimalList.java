@@ -21,12 +21,8 @@ public class AnimalList extends AppCompatActivity implements Contract {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animals);
 
-
         rvAnimals = findViewById(R.id.rvAnimals);
-        rvAnimals.setLayoutManager(new LinearLayoutManager(this));
-
-
-        new Presenter(this, getIntent()).getAnimals();
+        new Presenter(this).getAnimals();
 
 //        SharedPreferences.Editor editor = getSharedPreferences(
 //                getResources().getString(R.string.category_file),
@@ -43,6 +39,7 @@ public class AnimalList extends AppCompatActivity implements Contract {
 
     @Override
     public void onAdapterCreated(AnimalAdapter adapter) {
+        rvAnimals.setLayoutManager(new LinearLayoutManager(this));
         rvAnimals.setAdapter(adapter);
     }
 }

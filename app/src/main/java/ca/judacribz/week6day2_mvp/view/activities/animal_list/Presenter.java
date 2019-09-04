@@ -1,5 +1,6 @@
 package ca.judacribz.week6day2_mvp.view.activities.animal_list;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -21,10 +22,10 @@ public class Presenter implements AnimalTask.AnimalsListener {
     private Context context;
     private String category;
 
-    Presenter(Context context, Intent intent) {
+    Presenter(Context context) {
         this.animalContract = (Contract) (this.context = context);
-        category = intent.getStringExtra(EXTRA_CATEGORY_NAME);
 
+        category = ((Activity) context).getIntent().getStringExtra(EXTRA_CATEGORY_NAME);
         animalContract.onCategoryReceived(
                 !category.isEmpty() ?
                         category :
